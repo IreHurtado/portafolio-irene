@@ -1,0 +1,20 @@
+# Entorno virtual
+venv/
+__pycache__/
+*.pyc
+
+# Archivos temporales
+*.log
+*.sqlite3
+
+# Archivos de configuración de VSCode
+.vscode/
+
+# Archivos compilados de Django
+db.sqlite3
+
+# Archivos estáticos recolectados
+staticfiles/
+
+# Secretos o configuraciones locales
+.env
