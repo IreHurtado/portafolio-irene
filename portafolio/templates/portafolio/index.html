@@ -1,4 +1,5 @@
 {% extends "portafolio/base.html" %}
+{% load static %}
 
 {% block head_title %}
 Irene Hurtado – Portafolio
@@ -15,15 +16,15 @@ Irene Hurtado – Portafolio
   <div class="container px-5">
     <div class="row gx-5 align-items-center justify-content-center">
       <div class="col-lg-6 col-xl-5 text-center text-lg-start">
-        <h1 class="display-5 fw-bold mb-2">Hola, soy Irene Hurtado</h1>
+        <h1 class="display-5 fw-bold mb-2">HolaMundo! soy Irene Hurtado</h1>
         <p class="lead fw-normal text-white-50 mb-4">Desarrolladora Fullstack | Apasionada por la tecnología y el aprendizaje continuo</p>
         <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-lg-start">
-          <a class="btn btn-light btn-lg px-4 me-sm-3" href="#proyectos">Ver más</a>
+          <a class="btn btn-light btn-lg px-4 me-sm-3" href="{% url 'projects' %}">Ver más</a>
           <a class="btn btn-outline-light btn-lg px-4" href="https://www.youtube.com/" target="_blank">Get to know me</a>
         </div>
       </div>
       <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center">
-        <img class="img-fluid rounded-3 my-5" src="https://via.placeholder.com/400x400.png?text=Tu+Foto" alt="Tu Foto" />
+        <img class="img-fluid rounded-3 my-5" src="{% static 'images/irene.png' %}" alt="Foto" />
       </div>
     </div>
   </div>
@@ -37,34 +38,70 @@ Irene Hurtado – Portafolio
       <div class="col-md-4 mb-4 fade-in">
         <h4 class="text-purple1">Frontend</h4>
         <div class="d-grid gap-2">
-          <div class="bg-purple1 text-white p-2 rounded text-center skill-box">HTML</div>
-          <div class="bg-purple2 text-white p-2 rounded text-center skill-box">CSS</div>
-          <div class="bg-purple3 text-white p-2 rounded text-center skill-box">JavaScript</div>
-          <div class="bg-purple4 text-white p-2 rounded text-center skill-box">TypeScript</div>
+          <a href="{% url 'certificados_categoria' 'frontend' %}" class="text-decoration-none">
+            <div class="bg-purple1 text-white p-2 rounded text-center skill-box">HTML</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'frontend' %}" class="text-decoration-none">
+            <div class="bg-purple2 text-white p-2 rounded text-center skill-box">CSS</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'frontend' %}" class="text-decoration-none">
+            <div class="bg-purple3 text-white p-2 rounded text-center skill-box">JavaScript</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'frontend' %}" class="text-decoration-none">
+            <div class="bg-purple4 text-white p-2 rounded text-center skill-box">TypeScript</div>
+          </a>
         </div>
       </div>
       <div class="col-md-4 mb-4 fade-in">
         <h4 class="text-purple1">Backend</h4>
         <div class="d-grid gap-2">
-          <div class="bg-purple2 text-white p-2 rounded text-center skill-box">Python</div>
-          <div class="bg-purple3 text-white p-2 rounded text-center skill-box">Java</div>
-          <div class="bg-purple1 text-white p-2 rounded text-center skill-box">Node.js</div>
-          <div class="bg-purple4 text-white p-2 rounded text-center skill-box">Rust</div>
-          <div class="bg-purple2 text-white p-2 rounded text-center skill-box">SQL</div>
+          <a href="{% url 'certificados_categoria' 'backend' %}" class="text-decoration-none">
+            <div class="bg-purple2 text-white p-2 rounded text-center skill-box">Python</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'backend' %}" class="text-decoration-none">
+            <div class="bg-purple3 text-white p-2 rounded text-center skill-box">Java</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'backend' %}" class="text-decoration-none">
+            <div class="bg-purple1 text-white p-2 rounded text-center skill-box">Node.js</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'backend' %}" class="text-decoration-none">
+            <div class="bg-purple4 text-white p-2 rounded text-center skill-box">Rust</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'backend' %}" class="text-decoration-none">
+            <div class="bg-purple2 text-white p-2 rounded text-center skill-box">SQL</div>
+          </a>
         </div>
       </div>
       <div class="col-md-4 mb-4 fade-in">
         <h4 class="text-purple1">Frameworks e Idiomas</h4>
         <div class="d-grid gap-2">
-          <div class="bg-purple3 text-white p-2 rounded text-center skill-box">React</div>
-          <div class="bg-purple4 text-white p-2 rounded text-center skill-box">Django</div>
-          <div class="bg-purple1 text-white p-2 rounded text-center skill-box">Spring Boot</div>
-          <div class="bg-purple2 text-white p-2 rounded text-center skill-box">Angular</div>
-          <div class="bg-purple3 text-white p-2 rounded text-center skill-box">Vue</div>
-          <div class="bg-purple4 text-white p-2 rounded text-center skill-box">Git</div>
-          <div class="bg-purple2 text-white p-2 rounded text-center skill-box">GitHub</div>
-          <div class="bg-purple1 text-white p-2 rounded text-center skill-box">Español nativo</div>
-          <div class="bg-purple3 text-white p-2 rounded text-center skill-box">Inglés B2</div>
+          <a href="{% url 'certificados_categoria' 'frameworks' %}" class="text-decoration-none">
+            <div class="bg-purple3 text-white p-2 rounded text-center skill-box">React</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'frameworks' %}" class="text-decoration-none">
+            <div class="bg-purple4 text-white p-2 rounded text-center skill-box">Django</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'frameworks' %}" class="text-decoration-none">
+            <div class="bg-purple1 text-white p-2 rounded text-center skill-box">Spring Boot</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'frameworks' %}" class="text-decoration-none">
+            <div class="bg-purple2 text-white p-2 rounded text-center skill-box">Angular</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'frameworks' %}" class="text-decoration-none">
+            <div class="bg-purple3 text-white p-2 rounded text-center skill-box">Vue</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'frameworks' %}" class="text-decoration-none">
+            <div class="bg-purple4 text-white p-2 rounded text-center skill-box">Git</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'frameworks' %}" class="text-decoration-none">
+            <div class="bg-purple2 text-white p-2 rounded text-center skill-box">GitHub</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'frameworks' %}" class="text-decoration-none">
+            <div class="bg-purple1 text-white p-2 rounded text-center skill-box">Español nativo</div>
+          </a>
+          <a href="{% url 'certificados_categoria' 'frameworks' %}" class="text-decoration-none">
+            <div class="bg-purple3 text-white p-2 rounded text-center skill-box">Inglés C1</div>
+          </a>
         </div>
       </div>
     </div>

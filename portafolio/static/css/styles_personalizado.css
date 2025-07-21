@@ -42,7 +42,7 @@
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
-  --bs-primary-rgb: 13, 110, 253;
+  --bs-primary-rgb: 162, 108, 212;
   --bs-secondary-rgb: 108, 117, 125;
   --bs-success-rgb: 25, 135, 84;
   --bs-info-rgb: 13, 202, 240;
@@ -2845,19 +2845,19 @@ textarea.form-control-lg {
 
 .btn-primary {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #0d6efd;
-  --bs-btn-border-color: #0d6efd;
+  --bs-btn-bg: #d6b4f2;
+  --bs-btn-border-color: #d6b4f2;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #0b5ed7;
-  --bs-btn-hover-border-color: #0a58ca;
+  --bs-btn-hover-bg: #c397eb;
+  --bs-btn-hover-border-color: #c397eb;
   --bs-btn-focus-shadow-rgb: 49, 132, 253;
   --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: #0a58ca;
-  --bs-btn-active-border-color: #0a53be;
+  --bs-btn-active-bg: #b389dd;
+  --bs-btn-active-border-color: #b389dd;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --bs-btn-disabled-color: #fff;
-  --bs-btn-disabled-bg: #0d6efd;
-  --bs-btn-disabled-border-color: #0d6efd;
+  --bs-btn-disabled-bg: #d6b4f2;
+  --bs-btn-disabled-border-color: #d6b4f2;
 }
 
 .btn-secondary {
@@ -10850,6 +10850,8 @@ html {
 /* === Personalizaciones de Irene Hurtado === */
 /* === Irene: Paleta personalizada === */
 :root {
+  --bs-primary: var(--purple2) !important;
+  --bs-primary-rgb: 142, 99, 212 !important; 
   --purple1: #6f42c1;
   --purple2: #8e63d4;
   --purple3: #a98ee0;
@@ -10899,4 +10901,33 @@ html {
 /* === Irene: Transiciones suaves en botones === */
 .btn {
   transition: all 0.3s ease-in-out !important;
+}
+
+/* === Irene: Colores suaves en botones === */
+
+.btn-light-purple {
+  background-color: #d6b4f2 !important;
+  color: white !important;
+  border: none !important;
+}
+
+.btn-light-purple:hover {
+  background-color: #c397eb !important; 
+  color: #fff !important;
+}
+
+.btn-primary {
+  background-color: var(--purple3) !important;
+  border-color: var(--purple3) !important;
+  color: #fff !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--purple2) !important;
+  border-color: var(--purple2) !important;
+  color: #fff !important;
+}
+
+.bg-primary {
+  background-color:  var(--purple2) !important; 
 }

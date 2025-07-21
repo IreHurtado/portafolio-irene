@@ -1,4 +1,5 @@
 {% extends "portafolio/base.html" %}
+{% load static %}
 
 {% block head_title %}
 Sobre mí - Irene Hurtado
@@ -21,7 +22,7 @@ Sobre mí - Irene Hurtado
                   Desarrolladora fullstack con pasión por crear soluciones eficientes,
                   aprender nuevas tecnologías y construir proyectos significativos.
                 </p>
-                <a class="btn btn-primary btn-lg" href="#mi-historia">Leer más</a>
+                <a class="btn btn-light-purple btn-lg px-4 me-sm-3" href="#enlace-youtube">Saber más</a>
               </div>
             </div>
           </div>
@@ -33,7 +34,7 @@ Sobre mí - Irene Hurtado
         <div class="container px-5 my-5">
           <div class="row gx-5 align-items-center">
             <div class="col-lg-6">
-              <img class="img-fluid rounded mb-5 mb-lg-0" src="https://via.placeholder.com/600x400.png?text=Foto+de+Irene" alt="Foto Irene" />
+              <img class="img-fluid rounded mb-5 mb-lg-0" src="{% static 'images/about.png' %}" alt="About" />
             </div>
             <div class="col-lg-6">
               <h2 class="fw-bolder">Mi camino en la tecnología</h2>
@@ -51,7 +52,7 @@ Sobre mí - Irene Hurtado
         <div class="container px-5 my-5">
           <div class="row gx-5 align-items-center">
             <div class="col-lg-6 order-first order-lg-last">
-              <img class="img-fluid rounded mb-5 mb-lg-0" src="https://via.placeholder.com/600x400.png?text=Proyecto+o+evento" alt="..." />
+              <img class="img-fluid rounded mb-5 mb-lg-0" src="{% static 'images/about2.png' %}" alt="About2" />
             </div>
             <div class="col-lg-6">
               <h2 class="fw-bolder">Lo que me inspira</h2>

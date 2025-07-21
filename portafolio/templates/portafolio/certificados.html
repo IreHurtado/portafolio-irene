@@ -1,0 +1,28 @@
+{% extends "portafolio/base.html" %}
+{% load static %}
+
+{% block head_title %}
+Irene Hurtado – Portafolio
+{% endblock %}
+
+{% block head %}
+<!-- Estilos o scripts adicionales -->
+{% endblock %}
+
+{% block page_content %}
+
+<h2>Certificados - {{ categoria }}</h2>
+
+{% if archivos %}
+  <div class="row">
+    {% for archivo in archivos %}
+      <div class="col-md-4 mb-3">
+        <img src="{% static ruta|add:archivo %}" class="img-fluid border rounded" alt="{{ archivo }}">
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No hay certificados disponibles para esta categoría.</p>
+{% endif %}
+
+{% endblock %}
