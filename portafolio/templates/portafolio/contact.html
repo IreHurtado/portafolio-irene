@@ -1,5 +1,7 @@
 {% extends "portafolio/base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block head_title %}
 Contacto – Irene Hurtado
 {% endblock %}
@@ -21,35 +23,31 @@ Contacto – Irene Hurtado
               <h1 class="fw-bolder">Contáctame</h1>
               <p class="lead fw-normal text-muted mb-0">Estoy encantada de saber de ti</p>
             </div>
+
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  {{ message }}
+                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+
             <div class="row gx-5 justify-content-center">
               <div class="col-lg-8 col-xl-6">
-                <form id="contactForm" data-sb-form-api-token="API_TOKEN">
-                  <div class="form-floating mb-3">
-                    <input class="form-control" id="name" type="text" placeholder="Tu nombre..." required />
-                    <label for="name">Nombre completo</label>
-                    <div class="invalid-feedback">Se requiere un nombre.</div>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input class="form-control" id="email" type="email" placeholder="correo@ejemplo.com" required />
-                    <label for="email">Correo electrónico</label>
-                    <div class="invalid-feedback">Se requiere un correo válido.</div>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" />
-                    <label for="phone">Teléfono</label>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <textarea class="form-control" id="message" placeholder="Tu mensaje..." style="height: 10rem" required></textarea>
-                    <label for="message">Mensaje</label>
-                    <div class="invalid-feedback">Por favor escribe un mensaje.</div>
-                  </div>
+                <form method="POST">
+                  {% csrf_token %}
+                  {{ form|crispy }}
                   <div class="d-grid">
-                    <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Enviar</button>
+                    <button class="btn btn-primary btn-lg" type="submit">Enviar</button>
                   </div>
                 </form>
               </div>
             </div>
           </div>
+
+          
           <div class="row gx-5 row-cols-2 row-cols-lg-4 py-5">
             <div class="col">
               <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-chat-dots"></i></div>

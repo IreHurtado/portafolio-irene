@@ -1,6 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import os
 from django.conf import settings
+from django.core.mail import send_mail
+from django.contrib import messages
+from .forms import ContactForm
+from decouple import config
 
 def index(request):
     return render(request, 'portafolio/index.html')
@@ -12,7 +16,35 @@ def projects(request):
     return render(request, 'portafolio/projects.html')
 
 def contact(request):
-    return render(request, 'portafolio/contact.html')
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            email = form.cleaned_data['email']
+            telefono = form.cleaned_data['telefono']
+            mensaje = form.cleaned_data['mensaje']
+
+            contenido = (
+                f"Nombre: {nombre}\n"
+                f"Correo electrónico: {email}\n"
+                f"Teléfono: {telefono if telefono else 'No proporcionado'}\n"
+                f"Mensaje:\n{mensaje}"
+            )
+
+            subject = f"Nuevo mensaje de {nombre}"
+            from_email = config("EMAIL_HOST_USER")
+            recipient_list = ["irenehurtadoguerrero@gmail.com"]
+
+            try:
+                send_mail(subject, contenido, from_email, recipient_list)
+                messages.success(request, "Tu mensaje ha sido enviado con éxito!")
+                return redirect("contact")
+            except Exception as e:
+                messages.error(request, f"Ocurrió un error al enviar el mensaje: {str(e)}")
+    else:
+        form = ContactForm()
+
+    return render(request, "portafolio/contact.html", {"form": form})
 
 def certificados_categoria(request, categoria):
     categorias_validas = ['frontend', 'backend', 'frameworks']

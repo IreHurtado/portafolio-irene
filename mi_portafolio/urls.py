@@ -19,5 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('portafolio.urls')),  # conecta a las vistas de tu app
+    path('', include('portafolio.urls')),  
 ]
