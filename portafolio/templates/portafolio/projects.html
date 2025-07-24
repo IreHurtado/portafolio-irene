@@ -1,4 +1,5 @@
 {% extends "portafolio/base.html" %}
+{% load static %}
 
 {% block head_title %}
 Proyectos – Irene Hurtado
@@ -19,29 +20,45 @@ Proyectos – Irene Hurtado
             <p class="lead fw-normal text-muted mb-0">Explora lo que he construido</p>
           </div>
           <div class="row gx-5">
-            <div class="col-lg-6">
-              <div class="position-relative mb-5">
-                <img class="img-fluid rounded-3 mb-3" src="https://via.placeholder.com/600x400.png?text=Proyecto+1" alt="Proyecto 1" />
-                <a class="h3 fw-bolder text-decoration-none link-dark stretched-link" href="#!">Nombre del Proyecto 1</a>
-              </div>
+          <div class="col-lg-6">
+            <div class="position-relative mb-5">
+              <img class="img-fluid rounded-3 mb-3" src="{% static 'images/proyectos/notariaphurtado.png' %}" alt="Notaría Hurtado" />
+              <a class="h3 fw-bolder text-decoration-none link-dark stretched-link" href="https://github.com/IreHurtado/notariaphurtado" target="_blank">Notaría Hurtado</a>
             </div>
-            <div class="col-lg-6">
-              <div class="position-relative mb-5">
-                <img class="img-fluid rounded-3 mb-3" src="https://via.placeholder.com/600x400.png?text=Proyecto+2" alt="Proyecto 2" />
-                <a class="h3 fw-bolder text-decoration-none link-dark stretched-link" href="#!">Nombre del Proyecto 2</a>
-              </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="position-relative mb-5">
+              <img class="img-fluid rounded-3 mb-3" src="{% static 'images/proyectos/bibliotecaApi.png' %}" alt="Biblioteca API" />
+              <a class="h3 fw-bolder text-decoration-none link-dark stretched-link" href="https://github.com/IreHurtado/bibliotecaApi" target="_blank">Biblioteca API</a>
             </div>
-            <div class="col-lg-6">
-              <div class="position-relative mb-5 mb-lg-0">
-                <img class="img-fluid rounded-3 mb-3" src="https://via.placeholder.com/600x400.png?text=Proyecto+3" alt="Proyecto 3" />
-                <a class="h3 fw-bolder text-decoration-none link-dark stretched-link" href="#!">Nombre del Proyecto 3</a>
-              </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="position-relative mb-5">
+              <img class="img-fluid rounded-3 mb-3" src="{% static 'images/proyectos/HTML-JS-Anotador.png' %}" alt="Anotador Web" />
+              <a class="h3 fw-bolder text-decoration-none link-dark stretched-link" href="https://github.com/IreHurtado/HTML-JS-Anotador" target="_blank">Anotador Web</a>
             </div>
-            <div class="col-lg-6">
-              <div class="position-relative">
-                <img class="img-fluid rounded-3 mb-3" src="https://via.placeholder.com/600x400.png?text=Proyecto+4" alt="Proyecto 4" />
-                <a class="h3 fw-bolder text-decoration-none link-dark stretched-link" href="#!">Nombre del Proyecto 4</a>
-              </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="position-relative mb-5">
+              <img class="img-fluid rounded-3 mb-3" src="{% static 'images/proyectos/HTML-JS-Calculadora.png' %}" alt="Calculadora JS" />
+              <a class="h3 fw-bolder text-decoration-none link-dark stretched-link" href="https://github.com/IreHurtado/HTML-JS-Calculadora" target="_blank">Calculadora JS</a>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="position-relative mb-5">
+              <img class="img-fluid rounded-3 mb-3" src="{% static 'images/proyectos/portafolio-personal.png' %}" alt="Este Portafolio" />
+              <a class="h3 fw-bolder text-decoration-none link-dark stretched-link" href="https://github.com/IreHurtado/portafolio-irene" target="_blank">Este Portafolio</a>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="position-relative mb-5 d-flex flex-column align-items-center justify-content-center h-100 border rounded-3 bg-light p-4">
+              <p class="h4 mb-3">¿Quieres ver más?</p>
+              <a class="btn btn-outline-dark" href="https://github.com/IreHurtado" target="_blank">Ver todos mis proyectos</a>
             </div>
           </div>
         </div>
