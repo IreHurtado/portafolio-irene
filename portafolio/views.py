@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from .forms import ContactForm
 from decouple import config
+from .models import MensajeContacto
 
 def index(request):
     return render(request, 'portafolio/index.html')
@@ -41,6 +42,13 @@ def contact(request):
                 return redirect("contact")
             except Exception as e:
                 messages.error(request, f"Ocurrió un error al enviar el mensaje: {str(e)}")
+                
+            MensajeContacto.objects.create(
+                nombre=nombre,
+                email=email,
+                telefono=telefono,
+                mensaje=mensaje
+                )
     else:
         form = ContactForm()
 
