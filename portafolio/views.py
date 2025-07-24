@@ -38,17 +38,20 @@ def contact(request):
 
             try:
                 send_mail(subject, contenido, from_email, recipient_list)
-                messages.success(request, "Tu mensaje ha sido enviado con éxito!")
-                return redirect("contact")
-            except Exception as e:
-                messages.error(request, f"Ocurrió un error al enviar el mensaje: {str(e)}")
                 
-            MensajeContacto.objects.create(
+                MensajeContacto.objects.create(
                 nombre=nombre,
                 email=email,
                 telefono=telefono,
                 mensaje=mensaje
                 )
+                            
+                messages.success(request, "Tu mensaje ha sido enviado con éxito!")
+                return redirect("contact")
+            except Exception as e:
+                messages.error(request, f"Ocurrió un error al enviar el mensaje: {str(e)}")
+                
+
     else:
         form = ContactForm()
 
