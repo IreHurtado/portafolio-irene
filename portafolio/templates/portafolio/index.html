@@ -22,6 +22,18 @@ Irene Hurtado – Portafolio
           <a class="btn btn-light btn-lg px-4 me-sm-3" href="{% url 'projects' %}">Ver más</a>
           <a class="btn btn-outline-light btn-lg px-4" href="https://youtu.be/Xm4jwpfIADM?si=IPbRWZK8YBGHOHOQ" target="_blank" rel="noopener noreferrer">Get to know me</a>
         </div>
+      <!-- IA Prompt Formulario -->
+       <form id="ia-form" method="post" class="d-flex gap-2 mt-4">
+        {% csrf_token %}
+        <div class="input-group">
+          <input type="text" name="pregunta" id="pregunta" class="form-control" placeholder="Pregúntame algo sobre tech o IA ..." required>
+          <button type="submit" class="btn btn-light text-purple1 fw-bold">Enviar</button>
+        </div>
+      </form>
+      <p id="contador-preguntas" class="mt-2 text-white">
+        Te quedan <span id="restantes">3</span> preguntas por hoy.
+      </p>
+      <div id="respuesta-ia" class="mt-3 text-white-50"></div> 
       </div>
       <div class="col-xl-5 col-xxl-6 text-center">
         <img class="img-fluid rounded-3 my-5" src="{% static 'images/irene.png' %}" alt="Foto" />
@@ -108,4 +120,76 @@ Irene Hurtado – Portafolio
   </div>
 </section>
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("ia-form");
+    const preguntaInput = document.getElementById("pregunta");
+    const respuestaDiv = document.getElementById("respuesta-ia");
+    const restantesSpan = document.getElementById("restantes");
+
+    // Fecha actual
+    const hoy = new Date().toISOString().split('T')[0];
+    const ultimaFecha = localStorage.getItem("fechaUltimoUso");
+
+    // Reinicio contador
+    if (ultimaFecha !== hoy) {
+      localStorage.setItem("restantesPreguntasIA", 3);
+      localStorage.setItem("fechaUltimoUso", hoy);
+    }
+
+    // Preguntas restantes
+    const restantesGuardados = localStorage.getItem("restantesPreguntasIA");
+    if (restantesGuardados !== null && restantesSpan) {
+      restantesSpan.textContent = restantesGuardados;
+
+      if (parseInt(restantesGuardados) === 0) {
+        const enviarBtn = form.querySelector("button[type=submit]");
+        enviarBtn.disabled = true;
+        enviarBtn.textContent = "Límite alcanzado 😅";
+      }
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const pregunta = preguntaInput.value.trim();
+      if (!pregunta) return;
+
+      respuestaDiv.innerHTML = "Pensando... 🤖";
+
+      fetch("{% url 'index' %}", {
+        method: "POST",
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: "pregunta=" + encodeURIComponent(pregunta),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          respuestaDiv.innerHTML = data.respuesta;
+
+          if (data.restantes !== undefined && restantesSpan) {
+            restantesSpan.textContent = data.restantes;
+
+            localStorage.setItem("restantesPreguntasIA", data.restantes);
+            localStorage.setItem("fechaUltimoUso", hoy);
+
+            if (data.restantes === 0) {
+              const enviarBtn = form.querySelector("button[type=submit]");
+              enviarBtn.disabled = true;
+              enviarBtn.textContent = "Límite alcanzado 😅";
+            }
+          }
+        })
+        .catch((error) => {
+          respuestaDiv.innerHTML = "Ocurrió un error: " + error;
+        });
+    });
+  });
+</script>
 {% endblock %}
