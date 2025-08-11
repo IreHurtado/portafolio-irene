@@ -19,22 +19,27 @@ def index(request):
             return JsonResponse({"respuesta": "Por favor, escribe una pregunta.", "restantes": 3})
         
         ip = request.META.get('REMOTE_ADDR')
+        LIMITE_DIARIO = 3
         uso_actual = cache.get(ip, 0)
 
-        LIMITE_DIARIO = 3
-        RESTANTES = LIMITE_DIARIO - uso_actual
-
+    
         if uso_actual >= LIMITE_DIARIO:
             return JsonResponse({"respuesta": "Has alcanzado el límite diario de preguntas 😅. ", "restantes": 0})
         
-
+        uso_nuevo = uso_actual + 1
+        cache.set(ip, uso_nuevo, 86400)  
+        restantes = max(LIMITE_DIARIO - uso_nuevo, 0)
+        
         prompt = (
             "Responde como si fueras Irene, una desarrolladora empática que explica conceptos técnicos "
-            "con claridad, sin tecnicismos y de forma divertida. Pregunta: " + pregunta
+            "con claridad, sin tecnicismos y de forma divertida. "
+            "No respondas preguntas sobre política, religión, violencia o personas reales; "
+            "si la pregunta no está relacionada con el mundo tecnológico, proyectos o tu portafolio, "
+            "responde cortamente: 'Solo respondo dudas sobre mi portafolio y el mundo tech. ¿Algo sobre eso?'. "
+            "Pregunta: " + pregunta
         )
 
         try:
-            
             client = OpenAI(api_key=config("OPENAI_API_KEY"))
 
             respuesta = client.chat.completions.create(
@@ -43,17 +48,15 @@ def index(request):
                     {"role": "system", "content": "Eres Irene, una desarrolladora full stack experta, especializándose en IA. Tu objetivo es ayudar con explicaciones claras y cercanas."},
                     {"role": "user", "content": prompt},
                 ],
-                temperature=0.7,
+                temperature=0.0,
                 max_tokens=200
             )
 
             texto = respuesta.choices[0].message.content.strip()
-            cache.set(ip, uso_actual + 1, 86400)  
-            return JsonResponse({"respuesta": texto, "restantes": RESTANTES - 1})
+            return JsonResponse({"respuesta": texto, "restantes": restantes})
         
         except Exception as e:
-            return JsonResponse({"respuesta": f"Error al conectar con la IA: {str(e)}", "restantes": RESTANTES})
-        
+            return JsonResponse({"respuesta": f"Error al conectar con la IA: {str(e)}", "restantes": restantes})
     
     return render(request, 'portafolio/index.html')
 

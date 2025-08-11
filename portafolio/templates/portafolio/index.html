@@ -26,10 +26,10 @@ Irene Hurtado – Portafolio
        <form id="ia-form" method="post" class="d-flex gap-2 mt-4">
         {% csrf_token %}
         <div class="input-group">
-          <input type="text" name="pregunta" id="pregunta" class="form-control" placeholder="Pregúntame algo sobre tech o IA ..." required>
+          <input type="text" name="pregunta" id="pregunta" class="form-control" placeholder="Pregúntame algo sobre mi portafolio o temas techie ..." required>
           <button type="submit" class="btn btn-light text-purple1 fw-bold">Enviar</button>
         </div>
-      </form>
+       </form>
       <p id="contador-preguntas" class="mt-2 text-white">
         Te quedan <span id="restantes">3</span> preguntas por hoy.
       </p>
@@ -130,17 +130,7 @@ Irene Hurtado – Portafolio
     const respuestaDiv = document.getElementById("respuesta-ia");
     const restantesSpan = document.getElementById("restantes");
 
-    // Fecha actual
-    const hoy = new Date().toISOString().split('T')[0];
-    const ultimaFecha = localStorage.getItem("fechaUltimoUso");
-
-    // Reinicio contador
-    if (ultimaFecha !== hoy) {
-      localStorage.setItem("restantesPreguntasIA", 3);
-      localStorage.setItem("fechaUltimoUso", hoy);
-    }
-
-    // Preguntas restantes
+    // Preguntas restantes (se mostrará lo que venga del backend en la primera respuesta)
     const restantesGuardados = localStorage.getItem("restantesPreguntasIA");
     if (restantesGuardados !== null && restantesSpan) {
       restantesSpan.textContent = restantesGuardados;
@@ -177,7 +167,6 @@ Irene Hurtado – Portafolio
             restantesSpan.textContent = data.restantes;
 
             localStorage.setItem("restantesPreguntasIA", data.restantes);
-            localStorage.setItem("fechaUltimoUso", hoy);
 
             if (data.restantes === 0) {
               const enviarBtn = form.querySelector("button[type=submit]");
@@ -192,4 +181,5 @@ Irene Hurtado – Portafolio
     });
   });
 </script>
+
 {% endblock %}
