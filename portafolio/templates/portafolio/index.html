@@ -129,24 +129,46 @@ Irene Hurtado – Portafolio
     const preguntaInput = document.getElementById("pregunta");
     const respuestaDiv = document.getElementById("respuesta-ia");
     const restantesSpan = document.getElementById("restantes");
+    const enviarBtn = form?.querySelector("button[type=submit]");
 
-    // Preguntas restantes (se mostrará lo que venga del backend en la primera respuesta)
-    const restantesGuardados = localStorage.getItem("restantesPreguntasIA");
-    if (restantesGuardados !== null && restantesSpan) {
-      restantesSpan.textContent = restantesGuardados;
+   
+    function todayYMD() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
+    }
 
-      if (parseInt(restantesGuardados) === 0) {
-        const enviarBtn = form.querySelector("button[type=submit]");
+    const LS_KEY = "restantesPreguntasIA";
+    const LS_DATE = "restantesFechaIA";
+
+
+    const savedDate = localStorage.getItem(LS_DATE);
+    const savedRest = localStorage.getItem(LS_KEY);
+    if (savedDate === todayYMD() && savedRest !== null && restantesSpan) {
+      restantesSpan.textContent = savedRest;
+      if (Number(savedRest) === 0 && enviarBtn) {
         enviarBtn.disabled = true;
         enviarBtn.textContent = "Límite alcanzado 😅";
       }
+    } else {
+      localStorage.removeItem(LS_KEY);
+      localStorage.setItem(LS_DATE, todayYMD());
     }
+
+    // --- anti doble envío 
+    let inFlight = false;
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (inFlight) return;
 
-      const pregunta = preguntaInput.value.trim();
+      const pregunta = (preguntaInput?.value || "").trim();
       if (!pregunta) return;
+
+      inFlight = true;
+      if (enviarBtn) enviarBtn.disabled = true;
 
       respuestaDiv.innerHTML = "Pensando... 🤖";
 
@@ -154,30 +176,63 @@ Irene Hurtado – Portafolio
         method: "POST",
         headers: {
           "X-Requested-With": "XMLHttpRequest",
-          "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+          "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]')?.value || "",
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: "pregunta=" + encodeURIComponent(pregunta),
       })
-        .then((response) => response.json())
-        .then((data) => {
-          respuestaDiv.innerHTML = data.respuesta;
+        .then(async (response) => {
+          const data = await response.json().catch(() => ({}));
+          return { ok: response.ok, status: response.status, data };
+        })
+        .then(({ ok, status, data }) => {
+          if (data && typeof data.respuesta === "string") {
+            respuestaDiv.innerHTML = data.respuesta;
+          } else {
+            respuestaDiv.innerHTML = ok ? "Sin respuesta." : "Ocurrió un error.";
+          }
 
-          if (data.restantes !== undefined && restantesSpan) {
-            restantesSpan.textContent = data.restantes;
+          if (data && typeof data.restantes !== "undefined" && restantesSpan) {
+            const rest = Number(data.restantes);
+            restantesSpan.textContent = rest;
 
-            localStorage.setItem("restantesPreguntasIA", data.restantes);
+            localStorage.setItem(LS_KEY, String(rest));
+            localStorage.setItem(LS_DATE, todayYMD());
 
-            if (data.restantes === 0) {
-              const enviarBtn = form.querySelector("button[type=submit]");
+            if (rest === 0 && enviarBtn) {
               enviarBtn.disabled = true;
               enviarBtn.textContent = "Límite alcanzado 😅";
+            } else if (enviarBtn) {
+              enviarBtn.disabled = false; 
+              enviarBtn.textContent = "Enviar";
             }
+          }
+
+          // Si el backend devolvió 429, bloquea botón
+          if (!ok && status === 429 && enviarBtn) {
+            enviarBtn.disabled = true;
+            enviarBtn.textContent = "Límite alcanzado 😅";
           }
         })
         .catch((error) => {
           respuestaDiv.innerHTML = "Ocurrió un error: " + error;
+        })
+        .finally(() => {
+          inFlight = false;
+          const current = Number(restantesSpan?.textContent || "1");
+          if (enviarBtn && current > 0) {
+            enviarBtn.disabled = false;
+            enviarBtn.textContent = "Enviar";
+          }
         });
+    });
+
+
+    preguntaInput?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        form.requestSubmit?.(); 
+      }
     });
   });
 </script>
